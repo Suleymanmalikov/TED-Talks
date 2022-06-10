@@ -12,68 +12,81 @@
   align-items: center;
 }
 
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
 
-.title a {
-  color: #0070f3;
+.title a   {
+  cursor: pointer;
   text-decoration: none;
+  color: black;
 }
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+.title a span{
+  color: red;
 }
-
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
-}
-
-.title,
-.description {
+  font-size: 3rem;
   text-align: center;
+  margin-bottom: 2rem;
 }
 
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
+
+/* Searchbar */
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
 }
 
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+.searchTerm {
+  width: 100%;
+  border: 3px solid rgb(253, 63, 63);
+  border-right: none;
+  padding: 15px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
 }
 
+.searchTerm:focus{
+  /* color: #00B4CC; */
+  color: rgb(253, 63, 63);
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid rgb(253, 63, 63);
+  background: rgb(253, 63, 63);
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+
+
+
+
+/* card lar */
 .grid {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1100px;
+  list-style-type: none;
+}
+.grid img{
+  background-color: grey;
+  width: 250px;
 }
 
+
 .card {
+  background-color: #dadada;
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
@@ -83,30 +96,46 @@
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 300px;
+  max-height: 400px;
 }
-
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  /* color: #0070f3;
+  border-color: #0070f3; */
+  color: rgb(253, 63, 63);
+  border-color: rgb(253, 63, 63);
 }
-
 .card h2 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
 }
-
 .card p {
   margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+  font-size: 1.1rem;
+  line-height: 1.1;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+.views_likes{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  list-style-type: none;
 }
+.views_likes li{
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.date{
+  font-style: italic;
+}
+.author{
+  font-weight: 600;
+}
+/* card bitdi */
+
+
 
 @media (max-width: 600px) {
   .grid {
