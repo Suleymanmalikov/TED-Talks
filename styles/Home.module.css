@@ -117,13 +117,14 @@
 }
 
 .views_likes{
+  justify-content: space-between;
   padding: 0;
   margin: 0;
   display: flex;
   list-style-type: none;
 }
 .views_likes li{
-  margin-left: 1rem;
+  margin: 0 1rem;
   margin-bottom: 0.5rem;
 }
 

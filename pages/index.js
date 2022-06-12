@@ -1,100 +1,70 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react';
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
+import {Pagination} from '../components/Pagination'
+import {Posts} from '../components/Posts'
 // import BsEyeFill from 'react-icons/bs'
-import {BsEyeFill} from 'react-icons/bs';
-import {AiFillLike, AiOutlineSearch} from 'react-icons/ai'
 
 
-// const defaultEndpoint = 'https://rickandmortyapi.com/api/character';
 const defaultEndpoint = 'http://ted-talk-api.herokuapp.com/talks';
 
-export async function getServerSideProps() {
+
+export const getStaticProps = async () => {
+  // const res = await fetch('http://ted-talk-api.herokuapp.com/talks');
+  // const results = await res.json();
+  
   const data = await axios(defaultEndpoint)
-  .then(response =>{
-    return response.data;
-  })
-  // const res = await axios.get(defaultEndpoint);
-  // const data = await res.json();
-  // console.log(data);
-  return{
-    props: {
-      data
+    .then(response =>{
+      return response.data;
+    })
+    // const res = await axios.get(defaultEndpoint);
+    // const data = await res.json();
+    // console.log(data);
+    return{
+      props: {
+        data
+      }
     }
-  }
+
+  // return {
+  //   props: {
+  //     results
+  //   }
+  // }
 }
 
+
 export default function Home({ data }) {
-  const {info, results: defaultResults = []} = data;
-  const [ results, updateResults] = useState(defaultResults);
-  const [ page, updatePage] = useState({
-    ...info,
-    current: defaultEndpoint
-  })
-  const { current } = page;
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(450);
 
   useEffect(() => {
-    if ( current === defaultEndpoint ) return;
-
-    async function request() {
-      const res = await fetch(current);
-      const nextData = await res.json();
-      
-      // (response =>{
-      //   return response.nextData;
-      // })
-    
-      updatePage ({
-        current,
-        ...nextData.info
-      });
-
-      if( !nextData.info?.prev){
-        updateResults(nextData.results);
-        return;
-      }
-
-      updateResults (prev => {
-        return[
-          ...prev,
-          ...nextData.results
-        ]
-      })
+    const fetchPosts = async () => {
+      setLoading(true);
+      // const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+      // const res = await axios.get('http://ted-talk-api.herokuapp.com/talks');
+      // setPosts(res.data);
+      setPosts(data);
+      setLoading(false);
     }
 
-    request();
-  }, [current]);
+    fetchPosts();
+  }, [])
+  // console.log(posts); 
 
-  function handleLoadMore() {
-    updatePage(prev => {
-      return{
-        ...prev,
-        current: page?.next
-      }
-    })
-  }
+  // Get Current Post
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost );
 
-  function handleOnSubmitSearch(e){
-    e.preventDefault();
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const { currentTarget = {} } = e;
-    const fields = Array.from(currentTarget?.elements);
-    const fieldQuery = fields.find(field => field.name === 'query');
 
-    const value = fieldQuery.value || '';
-    const endpoint = `http://ted-talk-api.herokuapp.com/talks?keyword=${value}`;
-    // const endpoint = `https://rickandmortyapi.com/api/character/?name=${value}`;
-
-    
-    // console.log(endpoint)
-
-    updatePage({
-      current: endpoint
-    });
-  }
   return (
     <div className={styles.container}>
       <Head>
@@ -108,41 +78,130 @@ export default function Home({ data }) {
           <a><span>TED</span>ed</a> 
         </h1>
         <div>
-          <form className={styles.search} onSubmit={handleOnSubmitSearch}>
+          {/* <form className={styles.search} onSubmit={handleOnSubmitSearch}>
             <input className={styles.searchTerm} placeholder='Search'name='query' type='search'/>
             <button className={styles.searchButton}><AiOutlineSearch /></button>
-          </form>
+          </form> */}
 
         </div>
 
-        <ul className={styles.grid}>
-          {data.map(result =>{
-            const { id, title, img, views,likes, author, date } = result;
-
-            return (
-            <li key={id} className={styles.card}>
-              <Link href='/character/[id]' as={`/character/${id}`}>
-                <a>
-                  <img  src={img} alt={`${title} Thumb`}/> 
-                  {/* <h1>{ id } </h1> */}
-                  <ul className={styles.views_likes}>
-                    <li><BsEyeFill /> {views}</li>
-                    <li><AiFillLike /> {likes}</li>
-                  </ul>
-                  <p className={styles.date}>{ date }</p>
-                  <p className={styles.author}>{ author }</p>
-                  <h2>{ title }</h2>
-                </a>
-              </Link>
-            </li>
-            )
-          })}
-        </ul>
-
-        <p>
+        
+          <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate}/>
+          <Posts posts={currentPosts} loading={loading}/>
+        {/* <p>
           <button onClick={handleLoadMore}>Load More</button>
-        </p>
+        </p> */}
       </main>
     </div>
   )
+
+
+
+
+
+
+
+
+
+
+  // const {info, results: defaultResults = []} = data;
+  // const [ results, updateResults] = useState(defaultResults);
+  // const [ page, updatePage] = useState({
+  //   ...info,
+  //   current: defaultEndpoint
+  // })
+  // const { current } = page;
+
+  // useEffect(() => {
+  //   if ( current === defaultEndpoint ) return;
+
+  //   async function request() {
+
+  //     const res = await axios(current).then(response => {return response.data})
+
+  //     const nextData = await res;
+
+      
+  //     // (response =>{
+  //     //   return response.nextData;
+  //     // })
+    
+  //     updatePage ({
+  //       current,
+  //       ...nextData
+  //     });
+
+  //     if( !nextData.info?.prev){
+  //       updateResults(nextData.results);
+  //       return;
+  //     }
+
+  //     updateResults (prev => {
+  //       return[
+  //         ...prev,
+  //         ...nextData.results
+  //       ]
+  //     })
+  //   }
+
+  //   request();
+  // }, [current]);
+
+  // function handleLoadMore() {
+  //   updatePage(prev => {
+  //     return{
+  //       ...prev,
+  //       current: page?.next
+  //     }
+  //   })
+  // }
+
+  // async function handleOnSubmitSearch(e){
+  //   e.preventDefault();
+
+  //   const { currentTarget = {} } = e;
+  //   const fields = Array.from(currentTarget?.elements);
+  //   const fieldQuery = fields.find(field => field.name === 'query');
+
+  //   console.log(`this is field query value ${fieldQuery.value}`);
+
+  //   const value = fieldQuery.value || '';
+  //   const endpoint = `http://ted-talk-api.herokuapp.com/talks?keyword=${value}`;
+  //   // const endpoint = `https://rickandmortyapi.com/api/character/?name=${value}`;
+
+  //   const data = await axios(endpoint).then(response => {
+  //     return response.data;
+  //   })
+
+  //   console.log(data);
+
+  //   return{
+  //     current: endpoint
+  //   }
+
+  //   // return{
+  //   //   props: {
+  //   //     data
+  //   //   }
+  //   // }
+  // }
+
+  
 }
+// const defaultEndpoint = 'https://rickandmortyapi.com/api/character';
+// const defaultEndpoint = 'http://ted-talk-api.herokuapp.com/talks';
+
+// export async function getServerSideProps() {
+//   const data = await axios(defaultEndpoint)
+//   .then(response =>{
+//     return response.data;
+//   })
+//   // const res = await axios.get(defaultEndpoint);
+//   // const data = await res.json();
+//   // console.log(data);
+//   return{
+//     props: {
+//       data
+//     }
+//   }
+// }

@@ -1,0 +1,28 @@
+.container {
+    padding: 0 2rem;
+}
+    .grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    list-style-type: none;
+}
+
+.pageItem{
+    padding: 5px;
+    margin: 3px;
+    background-color: #dadada;
+    border-radius: 5px;
+    border: 1px solid #eaeaea;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+
+}
+.pageItem:hover,
+.pageItem:focus,
+.pageItem:active{
+    color: rgb(253, 63, 63);
+    border-color: rgb(253, 63, 63);
+}
