@@ -39,7 +39,7 @@ export default function Home({ data }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(100);
+  const [postsPerPage] = useState(125);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -85,7 +85,7 @@ export default function Home({ data }) {
         </div>
 
         
-          <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate}/>
+          <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage}/>
           <Posts posts={currentPosts} loading={loading}/>
         {/* <p>
           <button onClick={handleLoadMore}>Load More</button>

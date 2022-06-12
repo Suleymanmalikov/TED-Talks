@@ -51,7 +51,7 @@ export function Posts  ({ posts, loading }) {
                                     <li className={styles.title}>{ post.title }</li>
                                     <li className={styles.author}>{ post.author }</li>
                                     {/* <li className={styles.viewAndDate}>{post.views} views • {post.date} </li> */}
-                                    <li id='views' onLoad={numFormatter(post.views)} className={styles.viewAndDate}>{numFormatter(post.views)} views • {post.date}</li>        
+                                    <li id='views'  className={styles.viewAndDate}>{numFormatter(post.views)} views • {post.date}</li>        
                                 </ul>
                             </a>
                         </Link>
