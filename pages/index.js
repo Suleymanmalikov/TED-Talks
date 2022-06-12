@@ -5,7 +5,6 @@ import styles from '../styles/Home.module.css'
 import axios from 'axios';
 import {Pagination} from '../components/Pagination'
 import {Posts} from '../components/Posts'
-// import BsEyeFill from 'react-icons/bs'
 
 
 const defaultEndpoint = 'http://ted-talk-api.herokuapp.com/talks';
@@ -40,7 +39,7 @@ export default function Home({ data }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(450);
+  const [postsPerPage] = useState(100);
 
   useEffect(() => {
     const fetchPosts = async () => {

@@ -1,5 +1,5 @@
 .container {
-  padding: 0 2rem;
+  /* padding: 0 1rem; */
 }
 
 .main {
@@ -64,83 +64,4 @@
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   font-size: 20px;
-}
-
-
-
-
-
-/* card lar */
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 1100px;
-  list-style-type: none;
-}
-.grid img{
-  background-color: grey;
-  width: 250px;
-}
-
-
-.card {
-  background-color: #dadada;
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
-  max-height: 400px;
-}
-.card:hover,
-.card:focus,
-.card:active {
-  /* color: #0070f3;
-  border-color: #0070f3; */
-  color: rgb(253, 63, 63);
-  border-color: rgb(253, 63, 63);
-}
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-.card p {
-  margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.1;
-}
-
-.views_likes{
-  justify-content: space-between;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  list-style-type: none;
-}
-.views_likes li{
-  margin: 0 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.date{
-  font-style: italic;
-}
-.author{
-  font-weight: 600;
-}
-/* card bitdi */
-
-
-
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
 }
