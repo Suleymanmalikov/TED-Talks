@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Pagination.module.css";
 
-export const Pagination = ({
+export const PaginationNav = ({
   postsPerPage,
   totalPosts,
   currentPage,
@@ -12,12 +12,6 @@ export const Pagination = ({
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
-  function next() {
-    if (next.onClick) {
-      currentPage++;
-    }
-  }
-  console.log(currentPage);
 
   return (
     <nav className={styles.container}>

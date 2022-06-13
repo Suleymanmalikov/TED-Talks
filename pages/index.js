@@ -1,68 +1,48 @@
-import Link from 'next/link'
-import { useState, useEffect } from 'react';
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import axios from 'axios';
-import {Pagination} from '../components/Pagination'
-import {Posts} from '../components/Posts'
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import axios from "axios";
+import { PaginationNav } from "../components/Pagination";
+import { Posts } from "../components/Posts";
 
-
-const defaultEndpoint = 'http://ted-talk-api.herokuapp.com/talks';
-
+const defaultEndpoint = "http://ted-talk-api.herokuapp.com/talks";
 
 export const getStaticProps = async () => {
-  // const res = await fetch('http://ted-talk-api.herokuapp.com/talks');
-  // const results = await res.json();
-  
-  const data = await axios(defaultEndpoint)
-    .then(response =>{
-      return response.data;
-    })
-    // const res = await axios.get(defaultEndpoint);
-    // const data = await res.json();
-    // console.log(data);
-    return{
-      props: {
-        data
-      }
-    }
+  const data = await axios(defaultEndpoint).then((response) => {
+    return response.data;
+  });
 
-  // return {
-  //   props: {
-  //     results
-  //   }
-  // }
-}
-
+  return {
+    props: {
+      data,
+    },
+  };
+};
 
 export default function Home({ data }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(125);
+  const [postsPerPage] = useState(75);
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      // const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      // const res = await axios.get('http://ted-talk-api.herokuapp.com/talks');
-      // setPosts(res.data);
-      setPosts(data);
+      await setPosts(data);
       setLoading(false);
-    }
+    };
 
     fetchPosts();
-  }, [])
-  // console.log(posts); 
+  }, []);
 
   // Get Current Post
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost );
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
 
   return (
     <div className={styles.container}>
@@ -74,133 +54,28 @@ export default function Home({ data }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <a><span>TED</span>ed</a> 
+          <a>
+            <span>TED</span>ed
+          </a>
         </h1>
         <div>
           {/* <form className={styles.search} onSubmit={handleOnSubmitSearch}>
             <input className={styles.searchTerm} placeholder='Search'name='query' type='search'/>
             <button className={styles.searchButton}><AiOutlineSearch /></button>
           </form> */}
-
         </div>
 
-        
-          <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage}/>
-          <Posts posts={currentPosts} loading={loading}/>
+        <PaginationNav
+          postsPerPage={postsPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+        <Posts posts={currentPosts} loading={loading} />
         {/* <p>
           <button onClick={handleLoadMore}>Load More</button>
         </p> */}
       </main>
     </div>
-  )
-
-
-
-
-
-
-
-
-
-
-  // const {info, results: defaultResults = []} = data;
-  // const [ results, updateResults] = useState(defaultResults);
-  // const [ page, updatePage] = useState({
-  //   ...info,
-  //   current: defaultEndpoint
-  // })
-  // const { current } = page;
-
-  // useEffect(() => {
-  //   if ( current === defaultEndpoint ) return;
-
-  //   async function request() {
-
-  //     const res = await axios(current).then(response => {return response.data})
-
-  //     const nextData = await res;
-
-      
-  //     // (response =>{
-  //     //   return response.nextData;
-  //     // })
-    
-  //     updatePage ({
-  //       current,
-  //       ...nextData
-  //     });
-
-  //     if( !nextData.info?.prev){
-  //       updateResults(nextData.results);
-  //       return;
-  //     }
-
-  //     updateResults (prev => {
-  //       return[
-  //         ...prev,
-  //         ...nextData.results
-  //       ]
-  //     })
-  //   }
-
-  //   request();
-  // }, [current]);
-
-  // function handleLoadMore() {
-  //   updatePage(prev => {
-  //     return{
-  //       ...prev,
-  //       current: page?.next
-  //     }
-  //   })
-  // }
-
-  // async function handleOnSubmitSearch(e){
-  //   e.preventDefault();
-
-  //   const { currentTarget = {} } = e;
-  //   const fields = Array.from(currentTarget?.elements);
-  //   const fieldQuery = fields.find(field => field.name === 'query');
-
-  //   console.log(`this is field query value ${fieldQuery.value}`);
-
-  //   const value = fieldQuery.value || '';
-  //   const endpoint = `http://ted-talk-api.herokuapp.com/talks?keyword=${value}`;
-  //   // const endpoint = `https://rickandmortyapi.com/api/character/?name=${value}`;
-
-  //   const data = await axios(endpoint).then(response => {
-  //     return response.data;
-  //   })
-
-  //   console.log(data);
-
-  //   return{
-  //     current: endpoint
-  //   }
-
-  //   // return{
-  //   //   props: {
-  //   //     data
-  //   //   }
-  //   // }
-  // }
-
-  
+  );
 }
-// const defaultEndpoint = 'https://rickandmortyapi.com/api/character';
-// const defaultEndpoint = 'http://ted-talk-api.herokuapp.com/talks';
-
-// export async function getServerSideProps() {
-//   const data = await axios(defaultEndpoint)
-//   .then(response =>{
-//     return response.data;
-//   })
-//   // const res = await axios.get(defaultEndpoint);
-//   // const data = await res.json();
-//   // console.log(data);
-//   return{
-//     props: {
-//       data
-//     }
-//   }
-// }
