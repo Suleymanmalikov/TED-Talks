@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Posts.module.css";
 import Link from "next/link";
 
-export function Posts({ posts, loading }) {
+export default function Posts({ posts, loading }) {
   if (loading) {
     return <h2>Loading...</h2>;
   }

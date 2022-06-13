@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
-import { Posts } from "./components/Posts";
+import { Posts } from "../components/Posts";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
