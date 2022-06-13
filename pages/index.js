@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
-import { PaginationNav } from "../components/Pagination";
-import { Posts } from "../components/Posts";
+import { Posts } from "./components/Posts";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const defaultEndpoint = "http://ted-talk-api.herokuapp.com/talks";
 
@@ -24,7 +25,8 @@ export default function Home({ data }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(75);
+  const [postsPerPage] = useState(50);
+  const [totalPage, setTotalPage] = useState(0);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -32,6 +34,8 @@ export default function Home({ data }) {
       await setPosts(data);
       setLoading(false);
     };
+
+    setTotalPage(Math.ceil(data.length / postsPerPage));
 
     fetchPosts();
   }, []);
@@ -41,8 +45,25 @@ export default function Home({ data }) {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const renderPagination = () => {
+    return (
+      <div>
+        <Stack spacing={2}>
+          <Pagination
+            count={totalPage}
+            page={currentPage}
+            variant="outlined"
+            // color="secondary"
+            onChange={handleChange}
+          />
+        </Stack>
+      </div>
+    );
+  };
+
+  const handleChange = async (event, value) => {
+    setCurrentPage(value);
+  };
 
   return (
     <div className={styles.container}>
@@ -58,23 +79,9 @@ export default function Home({ data }) {
             <span>TED</span>ed
           </a>
         </h1>
-        <div>
-          {/* <form className={styles.search} onSubmit={handleOnSubmitSearch}>
-            <input className={styles.searchTerm} placeholder='Search'name='query' type='search'/>
-            <button className={styles.searchButton}><AiOutlineSearch /></button>
-          </form> */}
-        </div>
-
-        <PaginationNav
-          postsPerPage={postsPerPage}
-          totalPosts={posts.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
         <Posts posts={currentPosts} loading={loading} />
-        {/* <p>
-          <button onClick={handleLoadMore}>Load More</button>
-        </p> */}
+
+        {renderPagination()}
       </main>
     </div>
   );

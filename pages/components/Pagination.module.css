@@ -1,4 +1,4 @@
-.container {
+/* .container {
   padding: 0;
   margin: 0;
   display: flex;
@@ -25,18 +25,15 @@
   align-items: center;
   height: 30px;
   width: 30px;
-  /* border-radius: 5px; */
-  /* border: 1.25px solid black; */
 }
 .pageItem:hover,
 .pageItem:focus,
 .pageItem:active {
   font-weight: bolder;
-  /* border: 1.25px solid black; */
   opacity: 1;
 }
 
 .currentPage {
   font-weight: bolder;
   opacity: 1;
-}
+} */
