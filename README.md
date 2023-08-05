@@ -1,4 +1,4 @@
 TED talk api
 
 Link:
-https://ted-talk-api.vercel.app/
+https://ted-talk.vercel.app/
